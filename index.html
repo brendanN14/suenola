@@ -1,4 +1,4 @@
-<!doctype html>
+\<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -6,18 +6,15 @@
   <title>sueno.la</title>
 
   <style>
-    @font-face {
-      font-family: "Faith";
-      src: url("./fonts/faith.ttf") format("truetype");
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
+    @font-face{
+      font-family:"Faith";
+      src:url("./fonts/Faith.ttf") format("truetype");
+      font-weight:normal;
+      font-style:normal;
+      font-display:swap;
     }
 
-    :root { --ink:#000; }
-
-    html, body { height: 100%; margin: 0; }
-
+    html,body{height:100%;margin:0;}
     body{
       background:#fff;
       display:flex;
@@ -25,115 +22,48 @@
       justify-content:center;
     }
 
-    .wrap{
-      text-align:center;
-      padding: 24px;
-    }
+    .wrap{ text-align:center; padding:24px; }
 
     .wordmark{
-      display:inline-block; /* makes width equal to the word width */
-      font-family: "Faith", serif;
+      display:inline-block;
+      font-family:"Faith", serif;
       font-size: clamp(28px, 7vw, 76px);
-      line-height: 1;
-      color: var(--ink);
+      line-height:1;
+      color:#000;
       user-select:none;
     }
 
-    /* Dots row spans EXACTLY the width of the wordmark */
     .dots{
-      width: 100%;
-      margin-top: 10px;
+      margin: 12px auto 0;
       display:flex;
-      justify-content: space-between;
+      justify-content:center;
       align-items:center;
-      height: 18px;
+      gap: 10px;
+      height: 12px;
     }
 
-    /* Pencil-dot SVG container */
-    .pencil-dot{
-      width: 14px;
-      height: 14px;
-      display:block;
-      overflow: visible;
-      /* tiny hand wobble */
-      animation: wobble 1.4s steps(2,end) infinite;
-      opacity: 0.95;
+    .dot{
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background:#000;
+      opacity: 0.25;
+      transform: translateY(0);
+      animation: bounce 3.2s ease-in-out infinite; /* same speed as before */
     }
 
-    @keyframes wobble{
-      0%   { transform: translateY(0px) rotate(-0.6deg); }
-      50%  { transform: translateY(0.4px) rotate(0.7deg); }
-      100% { transform: translateY(0px) rotate(-0.2deg); }
+    /* Stagger so it loops left -> middle -> right */
+    .dot:nth-child(1){ animation-delay: 0s; }
+    .dot:nth-child(2){ animation-delay: 0.25s; }
+    .dot:nth-child(3){ animation-delay: 0.50s; }
+
+    @keyframes bounce{
+      0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+      40% { opacity: 1; transform: translateY(-6px); }
     }
 
-    /* The “drawn” circle stroke */
-    .pencil-dot .stroke{
-      fill: none;
-      stroke: rgba(0,0,0,0.88);
-      stroke-width: 2.1;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 31.5;   /* ~ circumference for r=5 */
-      stroke-dashoffset: 31.5;
-      opacity: 0;
-      animation: draw 4.6s ease-in-out infinite;
-      /* subtle graphite softness */
-      filter: drop-shadow(0 0 0.3px rgba(0,0,0,0.35));
-    }
-
-    /* A faint second stroke to feel “sketchy” */
-    .pencil-dot .stroke2{
-      fill: none;
-      stroke: rgba(0,0,0,0.22);
-      stroke-width: 3.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 31.5;
-      stroke-dashoffset: 31.5;
-      opacity: 0;
-      animation: draw 4.6s ease-in-out infinite;
-      transform: translate(0.35px, -0.25px);
-    }
-
-    /* Draw then fade (slower) */
-    @keyframes draw{
-      0%   { stroke-dashoffset: 31.5; opacity: 0; }
-      12%  { opacity: 1; }
-      30%  { stroke-dashoffset: 0; opacity: 1; }
-      62%  { stroke-dashoffset: 0; opacity: 0.9; }
-      100% { stroke-dashoffset: 0; opacity: 0; }
-    }
-
-    /* Stagger delays so it “travels” left → right */
-    .dots > *:nth-child(1) .stroke,
-    .dots > *:nth-child(1) .stroke2 { animation-delay: 0.0s; }
-
-    .dots > *:nth-child(2) .stroke,
-    .dots > *:nth-child(2) .stroke2 { animation-delay: 0.35s; }
-
-    .dots > *:nth-child(3) .stroke,
-    .dots > *:nth-child(3) .stroke2 { animation-delay: 0.70s; }
-
-    .dots > *:nth-child(4) .stroke,
-    .dots > *:nth-child(4) .stroke2 { animation-delay: 1.05s; }
-
-    .dots > *:nth-child(5) .stroke,
-    .dots > *:nth-child(5) .stroke2 { animation-delay: 1.40s; }
-
-    .dots > *:nth-child(6) .stroke,
-    .dots > *:nth-child(6) .stroke2 { animation-delay: 1.75s; }
-
-    .dots > *:nth-child(7) .stroke,
-    .dots > *:nth-child(7) .stroke2 { animation-delay: 2.10s; }
-
-    /* IMPORTANT: don’t hide on reduced motion; just show static dots */
     @media (prefers-reduced-motion: reduce){
-      .pencil-dot{ animation: none; }
-      .pencil-dot .stroke, .pencil-dot .stroke2{
-        animation: none;
-        opacity: 0.85;
-        stroke-dashoffset: 0;
-      }
+      .dot{ animation:none; opacity:0.6; }
     }
   </style>
 </head>
@@ -142,37 +72,10 @@
   <div class="wrap">
     <div class="wordmark">
       Sueno.LA
-
       <div class="dots" aria-label="Loading">
-        <!-- 7 pencil-drawn dots -->
-        <svg class="pencil-dot" viewBox="0 0 14 14" aria-hidden="true">
-          <circle class="stroke2" cx="7" cy="7" r="5"></circle>
-          <circle class="stroke"  cx="7" cy="7" r="5"></circle>
-        </svg>
-        <svg class="pencil-dot" viewBox="0 0 14 14" aria-hidden="true">
-          <circle class="stroke2" cx="7" cy="7" r="5"></circle>
-          <circle class="stroke"  cx="7" cy="7" r="5"></circle>
-        </svg>
-        <svg class="pencil-dot" viewBox="0 0 14 14" aria-hidden="true">
-          <circle class="stroke2" cx="7" cy="7" r="5"></circle>
-          <circle class="stroke"  cx="7" cy="7" r="5"></circle>
-        </svg>
-        <svg class="pencil-dot" viewBox="0 0 14 14" aria-hidden="true">
-          <circle class="stroke2" cx="7" cy="7" r="5"></circle>
-          <circle class="stroke"  cx="7" cy="7" r="5"></circle>
-        </svg>
-        <svg class="pencil-dot" viewBox="0 0 14 14" aria-hidden="true">
-          <circle class="stroke2" cx="7" cy="7" r="5"></circle>
-          <circle class="stroke"  cx="7" cy="7" r="5"></circle>
-        </svg>
-        <svg class="pencil-dot" viewBox="0 0 14 14" aria-hidden="true">
-          <circle class="stroke2" cx="7" cy="7" r="5"></circle>
-          <circle class="stroke"  cx="7" cy="7" r="5"></circle>
-        </svg>
-        <svg class="pencil-dot" viewBox="0 0 14 14" aria-hidden="true">
-          <circle class="stroke2" cx="7" cy="7" r="5"></circle>
-          <circle class="stroke"  cx="7" cy="7" r="5"></circle>
-        </svg>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
       </div>
     </div>
   </div>
