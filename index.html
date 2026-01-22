@@ -3,134 +3,42 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Loading… | Your Brand</title>
-  <meta name="description" content="Something is loading. Join the list for early access." />
+  <title>sueno.la</title>
+
   <style>
-    :root { --bg:#0b0b0c; --fg:#f5f5f5; --muted:#a5a5a5; }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0; min-height:100vh; display:grid; place-items:center;
-      background: radial-gradient(1200px 800px at 50% 30%, #141416 0%, var(--bg) 55%, #000 100%);
-      color:var(--fg); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      letter-spacing:0.2px;
+    /* Load the Faith font locally from your project */
+    @font-face {
+      font-family: "Faith";
+      src: url("./fonts/faith.ttf") format("truetype");
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
     }
-    .wrap{ width:min(920px, 92vw); padding:48px 0; }
-    .top{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
-    .logo{ font-weight:600; letter-spacing:0.6px; text-transform:uppercase; font-size:14px; opacity:0.9; }
-    .status{ font-size:12px; color:var(--muted); display:flex; gap:10px; align-items:center; }
-    .dot{ width:8px; height:8px; border-radius:50%; background:#7c7cff; box-shadow:0 0 16px #7c7cff; animation:pulse 1.3s infinite; }
-    @keyframes pulse { 0%,100%{ transform:scale(1); opacity:1;} 50%{ transform:scale(0.7); opacity:.55;} }
 
-    h1{ margin:44px 0 14px; font-size:clamp(36px, 6vw, 64px); line-height:1.02; letter-spacing:-0.02em; }
-    p{ margin:0 0 28px; color:var(--muted); font-size:16px; max-width:56ch; }
-
-    .bar{
-      height:10px; background: rgba(255,255,255,0.08); border-radius:999px; overflow:hidden;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
+    html, body {
+      height: 100%;
+      margin: 0;
     }
-    .bar > div{
-      height:100%; width:35%; border-radius:999px;
-      background: linear-gradient(90deg, rgba(124,124,255,0.2), rgba(124,124,255,0.95), rgba(124,124,255,0.2));
-      animation: load 2.2s ease-in-out infinite;
-      filter: drop-shadow(0 0 10px rgba(124,124,255,0.5));
+
+    body {
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    @keyframes load { 0%{ transform:translateX(-60%);} 100%{ transform:translateX(260%);} }
 
-    .grid{ display:grid; grid-template-columns: 1.2fr 0.8fr; gap:22px; margin-top:26px; }
-    @media (max-width: 820px){ .grid{ grid-template-columns:1fr; } }
-
-    .card{
-      background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
-      border-radius:18px; padding:18px;
-      backdrop-filter: blur(10px);
+    .wordmark {
+      font-family: "Faith", serif;
+      font-size: clamp(48px, 10vw, 120px);
+      line-height: 1;
+      color: #000000;
+      letter-spacing: 0;
+      user-select: none;
     }
-    .count{ font-variant-numeric: tabular-nums; font-size:22px; letter-spacing:0.02em; }
-    .label{ color:var(--muted); font-size:12px; margin-top:6px; }
-
-    form{ display:flex; gap:10px; margin-top:14px; }
-    input{
-      flex:1; padding:12px 14px; border-radius:12px;
-      border:1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.35);
-      color:var(--fg); outline:none;
-    }
-    input::placeholder{ color: rgba(245,245,245,0.35); }
-    button{
-      padding:12px 14px; border-radius:12px; border:1px solid rgba(124,124,255,0.55);
-      background: rgba(124,124,255,0.18); color:var(--fg); cursor:pointer;
-    }
-    button:hover{ background: rgba(124,124,255,0.26); }
-
-    .footer{ display:flex; justify-content:space-between; margin-top:18px; color:rgba(245,245,245,0.35); font-size:12px; }
-    a{ color:rgba(245,245,245,0.6); text-decoration:none; }
-    a:hover{ color:rgba(245,245,245,0.85); }
-
-    .hint{ color:rgba(245,245,245,0.45); font-size:12px; margin-top:10px; }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="logo">YOUR BRAND</div>
-      <div class="status"><span class="dot"></span><span>Loading drop assets…</span></div>
-    </div>
-
-    <h1>Drop 01 is loading.</h1>
-    <p>Minimal pieces. Limited quantities. Enter for early access before the site unlocks.</p>
-
-    <div class="bar" aria-hidden="true"><div></div></div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="count" id="countdown">--d --h --m --s</div>
-        <div class="label">Unlocks at: <span id="dateLabel">TBD</span></div>
-        <div class="hint">Tip: If you don’t want to reveal the exact date yet, remove the countdown and keep “Notify me”.</div>
-      </div>
-
-      <div class="card">
-        <div style="font-size:14px; opacity:.9; margin-bottom:6px;">Get notified</div>
-        <!-- Replace action with your email form provider (Mailchimp, Klaviyo, ConvertKit, etc.) -->
-        <form onsubmit="event.preventDefault(); alert('Added. See you at the drop.');">
-          <input type="email" placeholder="Email address" required />
-          <button type="submit">Notify me</button>
-        </form>
-        <div class="footer">
-          <span>© <span id="year"></span> YOUR BRAND</span>
-          <span><a href="#" aria-label="Instagram">Instagram</a></span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Set your drop date/time here (local time):
-    const DROP = new Date("2026-02-01T18:00:00"); // <-- change this
-
-    const cd = document.getElementById("countdown");
-    const dateLabel = document.getElementById("dateLabel");
-    const year = document.getElementById("year");
-
-    year.textContent = new Date().getFullYear();
-    dateLabel.textContent = DROP.toLocaleString([], { dateStyle:"medium", timeStyle:"short" });
-
-    function tick(){
-      const now = new Date();
-      let diff = DROP - now;
-
-      if (diff <= 0){
-        cd.textContent = "Unlocked.";
-        return;
-      }
-
-      const s = Math.floor(diff / 1000);
-      const d = Math.floor(s / 86400);
-      const h = Math.floor((s % 86400) / 3600);
-      const m = Math.floor((s % 3600) / 60);
-      const ss = s % 60;
-
-      cd.textContent = `${d}d ${h}h ${m}m ${ss}s`;
-      requestAnimationFrame(()=>setTimeout(tick, 250));
-    }
-    tick();
-  </script>
+  <div class="wordmark">sueno.la</div>
 </body>
 </html>
