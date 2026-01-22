@@ -6,7 +6,7 @@
   <title>sueno.la</title>
 
   <style>
-    /* Load the Faith font locally from your project */
+    /* 1) Faith font (local). Put the font file at: /fonts/Faith.ttf (or update filename below) */
     @font-face {
       font-family: "Faith";
       src: url("./fonts/faith.ttf") format("truetype");
@@ -15,30 +15,127 @@
       font-display: swap;
     }
 
-    html, body {
-      height: 100%;
-      margin: 0;
+    html, body { height: 100%; margin: 0; }
+
+    body{
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    body {
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .wrap{
+      text-align:center;
+      padding: 24px;
     }
 
-    .wordmark {
+    .wordmark{
       font-family: "Faith", serif;
-      font-size: clamp(48px, 10vw, 120px);
+      font-size: clamp(28px, 10vw, 140px);
       line-height: 1;
-      color: #000000;
-      letter-spacing: 0;
-      user-select: none;
+      color:#000;
+      user-select:none;
+    }
+
+    /* ===== Pencil loading bar ===== */
+    .bar{
+      width: min(520px, 78vw);
+      height: 16px;
+      margin: 18px auto 0;
+      position: relative;
+      border: 2px solid #000;
+      border-radius: 999px;
+      background: #fff;
+      overflow: hidden;
+      /* subtle hand-drawn vibe */
+      transform: rotate(-0.4deg);
+      filter: contrast(1.05);
+    }
+
+    /* Add a sketchy outline “double line” effect */
+    .bar::before{
+      content:"";
+      position:absolute;
+      inset: -3px;
+      border: 1px solid rgba(0,0,0,0.55);
+      border-radius: 999px;
+      pointer-events:none;
+      transform: rotate(0.8deg);
+      opacity: 0.9;
+    }
+
+    /* The fill that “loads” */
+    .fill{
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      position: relative;
+      /* pencil strokes: uneven hatching */
+      background:
+        repeating-linear-gradient(
+          135deg,
+          rgba(0,0,0,0.85) 0px,
+          rgba(0,0,0,0.85) 2px,
+          rgba(255,255,255,1) 2px,
+          rgba(255,255,255,1) 5px
+        );
+      animation:
+        loadWidth 2.7s ease-in-out infinite,
+        pencilJitter 0.9s steps(2, end) infinite;
+    }
+
+    /* adds “graphite grain” overlay */
+    .fill::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(0,0,0,0.10) 0px,
+          rgba(0,0,0,0.10) 1px,
+          rgba(255,255,255,0) 1px,
+          rgba(255,255,255,0) 3px
+        );
+      opacity: 0.65;
+      mix-blend-mode: multiply;
+      pointer-events:none;
+    }
+
+    /* tiny wobble so it feels hand-drawn */
+    @keyframes pencilJitter{
+      0%   { transform: translateY(0px) skewX(0deg); }
+      50%  { transform: translateY(0.5px) skewX(-0.6deg); }
+      100% { transform: translateY(0px) skewX(0.4deg); }
+    }
+
+    /* looping load */
+    @keyframes loadWidth{
+      0%   { width: 6%; }
+      45%  { width: 92%; }
+      70%  { width: 92%; }
+      100% { width: 6%; }
+    }
+
+    /* optional tiny caption (remove if you want ultra-minimal) */
+    .hint{
+      margin-top: 10px;
+      font: 12px/1.2 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: rgba(0,0,0,0.55);
+      letter-spacing: 0.2px;
+      user-select:none;
     }
   </style>
 </head>
 
 <body>
-  <div class="wordmark">sueno.la</div>
+  <div class="wrap">
+    <div class="wordmark">Sueno.LA</div>
+    <div class="bar" aria-label="Loading">
+      <div class="fill"></div>
+    </div>
+    <!-- delete this line if you want ONLY logo + bar -->
+    <div class="hint">loading…</div>
+  </div>
 </body>
 </html>
