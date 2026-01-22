@@ -1,17 +1,19 @@
-\<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>sueno.la</title>
+  <link rel="preload" href="./fonts/faith.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
     @font-face{
       font-family:"Faith";
-      src:url("./fonts/faith.ttf") format("truetype");
+      src: url("./fonts/faith.woff2") format("woff2"),
+      url("./fonts/faith.woff2") format("truetype");
       font-weight:normal;
       font-style:normal;
-      font-display:swap;
+      font-display:block;
     }
 
     html,body{height:100%;margin:0;}
