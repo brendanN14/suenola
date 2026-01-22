@@ -6,7 +6,7 @@
   <title>sueno.la</title>
 
   <style>
-    /* 1) Faith font (local). Put the font file at: /fonts/Faith.ttf (or update filename below) */
+    /* Faith font (local): put file at ./fonts/Faith.ttf (or update below) */
     @font-face {
       font-family: "Faith";
       src: url("./fonts/faith.ttf") format("truetype");
@@ -14,6 +14,8 @@
       font-style: normal;
       font-display: swap;
     }
+
+    :root { --ink:#000; }
 
     html, body { height: 100%; margin: 0; }
 
@@ -29,113 +31,87 @@
       padding: 24px;
     }
 
+    /* The word sets the width; dots match this width */
     .wordmark{
+      display:inline-block;          /* critical: makes width = text width */
       font-family: "Faith", serif;
-      font-size: clamp(28px, 10vw, 140px);
+      font-size: clamp(28px, 6vw, 76px);
       line-height: 1;
-      color:#000;
+      color: var(--ink);
       user-select:none;
     }
 
-    /* ===== Pencil loading bar ===== */
-    .bar{
-      width: min(520px, 78vw);
-      height: 16px;
-      margin: 18px auto 0;
+    /* Dots row spans the exact width of the wordmark */
+    .dots{
+      width: 100%;
+      height: 18px;
+      margin-top: 12px;
       position: relative;
-      border: 2px solid #000;
-      border-radius: 999px;
-      background: #fff;
       overflow: hidden;
-      /* subtle hand-drawn vibe */
-      transform: rotate(-0.4deg);
+      /* subtle pencil vibe */
       filter: contrast(1.05);
     }
 
-    /* Add a sketchy outline “double line” effect */
-    .bar::before{
-      content:"";
+    .dot{
       position:absolute;
-      inset: -3px;
-      border: 1px solid rgba(0,0,0,0.55);
-      border-radius: 999px;
-      pointer-events:none;
-      transform: rotate(0.8deg);
-      opacity: 0.9;
-    }
-
-    /* The fill that “loads” */
-    .fill{
-      height: 100%;
-      width: 0%;
-      border-radius: 999px;
-      position: relative;
-      /* pencil strokes: uneven hatching */
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
       background:
-        repeating-linear-gradient(
-          135deg,
-          rgba(0,0,0,0.85) 0px,
-          rgba(0,0,0,0.85) 2px,
-          rgba(255,255,255,1) 2px,
-          rgba(255,255,255,1) 5px
-        );
-      animation:
-        loadWidth 2.7s ease-in-out infinite,
-        pencilJitter 0.9s steps(2, end) infinite;
+        radial-gradient(circle at 40% 35%, rgba(255,255,255,0.9) 0 25%, rgba(255,255,255,0) 26%),
+        radial-gradient(circle, rgba(0,0,0,0.85) 0 70%, rgba(0,0,0,0.75) 71% 100%);
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.25),
+        0 0 10px rgba(0,0,0,0.06);
+      opacity: 0.25;
+      /* micro jitter = “pencil” */
+      animation: jitter 0.75s steps(2,end) infinite;
     }
 
-    /* adds “graphite grain” overlay */
-    .fill::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          rgba(0,0,0,0.10) 0px,
-          rgba(0,0,0,0.10) 1px,
-          rgba(255,255,255,0) 1px,
-          rgba(255,255,255,0) 3px
-        );
-      opacity: 0.65;
-      mix-blend-mode: multiply;
-      pointer-events:none;
+    @keyframes jitter{
+      0%   { transform: translate(-50%, -50%) skewX(0deg); }
+      50%  { transform: translate(-50%, calc(-50% + 0.4px)) skewX(-0.6deg); }
+      100% { transform: translate(-50%, -50%) skewX(0.4deg); }
     }
 
-    /* tiny wobble so it feels hand-drawn */
-    @keyframes pencilJitter{
-      0%   { transform: translateY(0px) skewX(0deg); }
-      50%  { transform: translateY(0.5px) skewX(-0.6deg); }
-      100% { transform: translateY(0px) skewX(0.4deg); }
+    /* Travel animation: dots sweep across the width in a loop */
+    @keyframes travel{
+      0%   { left: -6%; opacity: 0.12; }
+      10%  { opacity: 0.35; }
+      50%  { opacity: 0.9; }
+      90%  { opacity: 0.35; }
+      100% { left: 106%; opacity: 0.12; }
     }
 
-    /* looping load */
-    @keyframes loadWidth{
-      0%   { width: 6%; }
-      45%  { width: 92%; }
-      70%  { width: 92%; }
-      100% { width: 6%; }
-    }
+    /* 7 dots, staggered so they “flow” across */
+    .dot:nth-child(1){ animation: travel 1.9s linear infinite, jitter 0.75s steps(2,end) infinite; animation-delay: 0.00s; }
+    .dot:nth-child(2){ animation: travel 1.9s linear infinite, jitter 0.75s steps(2,end) infinite; animation-delay: 0.18s; }
+    .dot:nth-child(3){ animation: travel 1.9s linear infinite, jitter 0.75s steps(2,end) infinite; animation-delay: 0.36s; }
+    .dot:nth-child(4){ animation: travel 1.9s linear infinite, jitter 0.75s steps(2,end) infinite; animation-delay: 0.54s; }
+    .dot:nth-child(5){ animation: travel 1.9s linear infinite, jitter 0.75s steps(2,end) infinite; animation-delay: 0.72s; }
+    .dot:nth-child(6){ animation: travel 1.9s linear infinite, jitter 0.75s steps(2,end) infinite; animation-delay: 0.90s; }
+    .dot:nth-child(7){ animation: travel 1.9s linear infinite, jitter 0.75s steps(2,end) infinite; animation-delay: 1.08s; }
 
-    /* optional tiny caption (remove if you want ultra-minimal) */
-    .hint{
-      margin-top: 10px;
-      font: 12px/1.2 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: rgba(0,0,0,0.55);
-      letter-spacing: 0.2px;
-      user-select:none;
+    /* respect reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .dot{ animation: none; opacity: 0.6; }
+      .dots{ display:none; }
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="wordmark">Sueno.LA</div>
-    <div class="bar" aria-label="Loading">
-      <div class="fill"></div>
+    <div class="wordmark">
+      Sueno.LA
+      <div class="dots" aria-label="Loading">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span>
+      </div>
     </div>
-    <!-- delete this line if you want ONLY logo + bar -->
-    <div class="hint">loading…</div>
   </div>
 </body>
 </html>
