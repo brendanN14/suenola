@@ -45,8 +45,8 @@
     }
 
     .dot{
-      width: clamp(3px, 1.2vw, 5px);
-      height: clamp(3px, 1.2vw, 5px);
+      width: clamp(1px, 1.2vw, 5px);
+      height: clamp(1px, 1.2vw, 5px);
       border-radius: 50%;
       background:#000;
       opacity: 0.25;
@@ -61,7 +61,7 @@
 
     @keyframes bounce{
       0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
-      40% { opacity: 1; transform: translateY(-6px); }
+      40% { opacity: 1; transform: translateY(clamp(-4px, -1.6vw, -6px)); }
     }
   </style>
 </head>
