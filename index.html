@@ -66,6 +66,36 @@
   </style>
 </head>
 
+<script>
+  // Block Ctrl/⌘ + wheel zoom (mouse wheel / trackpad scroll)
+  window.addEventListener('wheel', function (e) {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Block trackpad pinch-zoom in many browsers (fires as gesture events in Safari)
+  window.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+  });
+  window.addEventListener('gesturechange', function (e) {
+    e.preventDefault();
+  });
+  window.addEventListener('gestureend', function (e) {
+    e.preventDefault();
+  });
+
+  // Block Ctrl/⌘ +/- and Ctrl/⌘ 0 zoom hotkeys
+  window.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey) {
+      const key = e.key.toLowerCase();
+      if (key === '+' || key === '=' || key === '-' || key === '0') {
+        e.preventDefault();
+      }
+    }
+  });
+</script>
+
 <body>
   <div class="wrap">
     <div class="wordmark">
