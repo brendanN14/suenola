@@ -24,7 +24,17 @@
       justify-content:center;
     }
 
-    .wrap{ text-align:center; padding:24px; }
+    .wrap{
+      text-align:center;
+      padding:24px;
+      opacity: 0;
+      transition: opacity 3200ms ease-out;
+    }
+    .wrap.loaded{ opacity: 1; }
+
+    @media (prefers-reduced-motion: reduce){
+      .wrap{ transition: none; }
+    }
 
     .wordmark{
       display:inline-block;
@@ -67,6 +77,21 @@
 </head>
 
 <script>
+  // Fade in the wordmark + dots once the custom font is ready
+  (function(){
+    var reveal = function(){
+      var el = document.querySelector('.wrap');
+      if (el) el.classList.add('loaded');
+    };
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(reveal);
+      // Safety net in case fonts.ready never resolves
+      setTimeout(reveal, 1500);
+    } else {
+      window.addEventListener('load', reveal);
+    }
+  })();
+
   // Block Ctrl/⌘ + wheel zoom (mouse wheel / trackpad scroll)
   window.addEventListener('wheel', function (e) {
     if (e.ctrlKey || e.metaKey) {
