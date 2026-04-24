@@ -77,18 +77,26 @@
 </head>
 
 <script>
-  // Fade in the wordmark + dots once the custom font is ready
+  // Fade in the wordmark + dots once the custom font is ready,
+  // after a brief delay so the page intentionally eases in.
   (function(){
+    var REVEAL_DELAY_MS = 550;
+    var revealed = false;
     var reveal = function(){
+      if (revealed) return;
+      revealed = true;
       var el = document.querySelector('.wrap');
       if (el) el.classList.add('loaded');
     };
+    var scheduleReveal = function(){
+      setTimeout(reveal, REVEAL_DELAY_MS);
+    };
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(reveal);
+      document.fonts.ready.then(scheduleReveal);
       // Safety net in case fonts.ready never resolves
-      setTimeout(reveal, 1500);
+      setTimeout(scheduleReveal, 1500);
     } else {
-      window.addEventListener('load', reveal);
+      window.addEventListener('load', scheduleReveal);
     }
   })();
 
